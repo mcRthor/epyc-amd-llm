@@ -15,5 +15,7 @@ First version.
 - BIOS: factory defaults, nothing changed; the state in effect as seen from Linux (UEFI, Resizable BAR,
   IOMMU, ASPM, SMT, NPS1, boost, C-states).
 - Benchmark checks validated against the reference solutions.
+- `docs/LESSONS.md`: lessons learned building and testing the server.
 
-Not yet: Qwen3.5 9B speed on the 9060 XT, results from other machines.
+Not yet: Qwen3.5 9B speed on the 9060 XT, results from other machines; the system monitor (HUD),
+certificates, firewall ports and Docker setup.

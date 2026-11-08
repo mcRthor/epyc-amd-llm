@@ -58,7 +58,8 @@ Full tables, method and caveats: **[BENCHMARKS.md](BENCHMARKS.md)**.
 | Path | What |
 |---|---|
 | [`BENCHMARKS.md`](BENCHMARKS.md) | every measured result |
-| [`docs/HARDWARE.md`](docs/HARDWARE.md) | parts, PCIe layout, memory, power, quirks |
+| [`docs/HARDWARE.md`](docs/HARDWARE.md) | parts, PCIe layout, memory, power, BIOS, quirks |
+| [`docs/LESSONS.md`](docs/LESSONS.md) | lessons learned: fitting models, running the router, benchmarking |
 | [`recipes/`](recipes/) | llama.cpp router presets, start scripts, systemd units, R9700 power cap |
 | [`bench/code_test.py`](bench/code_test.py) | the coding benchmark (Python stdlib only) |
 | [`scripts/report.sh`](scripts/report.sh) | prints a rig report for an AMD GPU machine |
