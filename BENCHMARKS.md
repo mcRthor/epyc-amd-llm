@@ -3,7 +3,7 @@
 Every number measured on this one machine: Huananzhi H12D-8D, EPYC 7402, 128 GB DDR4-2400 (8 channels),
 Radeon AI PRO R9700 32 GB, Ubuntu 26.04, kernel 7.0, llama.cpp ROCm builds from
 [lemonade-sdk/llamacpp-rocm](https://github.com/lemonade-sdk/llamacpp-rocm) (gfx120X).
-All router models ran on the **R9700**, one at a time. Results from October 23 to November 1, 2026.
+All router models ran on the **R9700**, one at a time. Results from October 23 to November 3, 2026.
 
 - [Coding: hard set](#coding-hard-set): how often each model writes correct code, and how fast
 - [Coding: basic set](#coding-basic-set)
@@ -153,7 +153,7 @@ Same 9,691-token prompt and 512-token answer, Muse-Glimmer 30B + DFlash, greedy,
 | 285 W | 1,036 (−0.8%) | 67.6 | 231 / 277 W | 89 °C |
 | 250 W | 1,007 (−3.5%) | 66.9 (−1.0%) | 207 / 248 W | 85 °C |
 
-**250 W costs about 3.5% prompt speed and 1% generation speed, for 10-15% less power and 6 °C cooler.**
+**250 W costs about 3.5% prompt speed and 1% generation speed, for 10-15% less power and a 6 °C lower peak junction temperature.**
 This build runs at 250 W ([`recipes/power-cap/`](recipes/power-cap/)). The card accepts 210-300 W.
 Dense models that keep the GPU busier may lose more; measure your own.
 

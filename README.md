@@ -25,7 +25,7 @@ Both GPUs have a full PCIe 4.0 x16 link to the CPU. Details, PCIe map and quirks
 
 ## What runs where
 
-- **R9700 (32 GB):** one llama.cpp router on port 9700 with about ten models (27-74B), one loaded at a time,
+- **R9700 (32 GB):** one llama.cpp router on port 9700 with nine models (27-74B), one loaded at a time,
   swapped on demand by model name.
 - **RX 9060 XT (16 GB):** three small always-on servers: a 9B chat model, an embedding model and a reranker.
 
@@ -48,7 +48,7 @@ Also measured:
 
 - **DFlash speculative decoding** doubles Glimmer's speed (31 → 60 tok/s), at the cost of longer answers
   that now and then don't finish.
-- **R9700 at 250 W instead of 300 W:** −3.5% prompt speed, −1% generation, 6 °C cooler.
+- **R9700 at 250 W instead of 300 W:** −3.5% prompt speed, −1% generation, peak junction 6 °C lower.
 - **120B MoE models** run with experts in system RAM at 6-13 tok/s.
 
 Full tables, method and caveats: **[BENCHMARKS.md](BENCHMARKS.md)**.

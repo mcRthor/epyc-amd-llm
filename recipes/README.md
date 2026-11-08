@@ -10,7 +10,7 @@ How the models are served on this build: one llama.cpp **router** on the R9700 h
 | 9702 | 9060 XT (0) | [`start-embed.sh`](start-embed.sh) | Qwen3-Embedding-4B, `/v1/embeddings` |
 | 9703 | 9060 XT (0) | [`start-rerank.sh`](start-rerank.sh) | Qwen3-Reranker-0.6B, `/v1/rerank` |
 
-All four speak the OpenAI-compatible API and require an API key.
+All four are llama-server instances with its OpenAI-compatible API, and all require an API key.
 
 ## Setup
 
