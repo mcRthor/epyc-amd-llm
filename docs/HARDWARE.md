@@ -43,7 +43,7 @@ Both GPUs get a full **PCIe 4.0 x16** link straight to a CPU root port. There is
 
 8 channels × 2400 MT/s × 8 bytes ≈ **154 GB/s** in theory. The EPYC 7402 supports DDR4-3200 (≈205 GB/s), so
 faster DIMMs would help, but only for models that spill out of VRAM: with expert weights in RAM
-(`n-cpu-moe`), a 120B MoE ran at 6-13 tok/s here, against 30-110 tok/s for models that fit on the R9700.
+(`n-cpu-moe`), a 120B MoE ran at 6-13 tok/s here, against 20-110 tok/s for models that fit on the R9700.
 Fill all 8 slots: every empty channel cuts bandwidth by an eighth.
 
 ## Power and cooling
@@ -80,4 +80,4 @@ Fill all 8 slots: every empty channel cuts bandwidth by an eighth.
 
 ## BIOS
 
-BIOS 3.0 (2026-09-16), the newest at the time. Settings changed from the defaults: *to be added.*
+BIOS 3.0 (2026-09-16). Settings changed from the defaults: *to be added.*

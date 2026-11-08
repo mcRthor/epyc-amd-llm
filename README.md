@@ -46,7 +46,8 @@ Hard coding set: 7 Python tasks × 3 attempts, 309 hidden checks, run in a sandb
 
 Also measured:
 
-- **DFlash speculative decoding** doubles Glimmer's speed: 31 → 60 tok/s, same score.
+- **DFlash speculative decoding** doubles Glimmer's speed (31 → 60 tok/s), at the cost of longer answers
+  that now and then don't finish.
 - **R9700 at 250 W instead of 300 W:** −3.5% prompt speed, −1% generation, 6 °C cooler.
 - **120B MoE models** run with experts in system RAM at 6-13 tok/s.
 
