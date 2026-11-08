@@ -1,0 +1,6 @@
+api-key.txt
+*.key
+*.gguf
+__pycache__/
+code_test_*.json
+.env

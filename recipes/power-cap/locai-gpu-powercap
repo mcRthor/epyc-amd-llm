@@ -1,0 +1,41 @@
+#!/bin/bash
+# Set the power limit of every Radeon AI PRO R9700 (PCI 1002:7551) at boot; the limit written to
+# sysfs is lost at every reboot and GPU reset. Measured 2026-11-03 on agent-glimmer: 250 W costs
+# ~3.5% prompt speed and ~1% generation speed against the default 300 W, for 10-15% less power.
+#
+# Installed root-owned in /usr/local/sbin (source: recipes/power-cap/ in this repo), run by
+# locai-gpu-powercap@<watts>.service. WATTS sets the limit (clamped to the card's own min/max);
+# SYS points at a fake /sys tree for testing without root.
+set -u
+WATTS="${WATTS:-250}"
+case "$WATTS" in ''|*[!0-9]*) echo "WATTS must be a whole number of watts, got '$WATTS'" >&2; exit 2;; esac
+SYS="${SYS:-/sys}"
+cards=0 fails=0
+for dev in "$SYS"/bus/pci/devices/*; do
+    [ "$(cat "$dev/vendor" 2>/dev/null)" = 0x1002 ] && [ "$(cat "$dev/device" 2>/dev/null)" = 0x7551 ] || continue
+    cards=$((cards + 1))
+    bdf=$(basename "$dev")
+    cap=""
+    for _ in $(seq 60); do  # amdgpu may still be creating the hwmon node early in boot
+        cap=$(ls "$dev"/hwmon/hwmon*/power1_cap 2>/dev/null | head -n1)
+        [ -n "$cap" ] && break
+        sleep 1
+    done
+    if [ -z "$cap" ]; then
+        echo "$bdf: no power1_cap after 60 s (driver not loaded, or the card's SMU hung?)" >&2
+        fails=$((fails + 1)); continue
+    fi
+    hw=$(dirname "$cap")
+    min=$(cat "$hw/power1_cap_min") max=$(cat "$hw/power1_cap_max")
+    want=$((WATTS * 1000000))
+    [ "$want" -lt "$min" ] && want=$min
+    [ "$want" -gt "$max" ] && want=$max
+    if echo "$want" > "$cap" && [ "$(cat "$cap")" = "$want" ]; then
+        echo "$bdf: power limit $((want / 1000000)) W (card range $((min / 1000000))-$((max / 1000000)) W)"
+    else
+        echo "$bdf: could not set power limit to $((want / 1000000)) W (still $(( $(cat "$cap") / 1000000 )) W)" >&2
+        fails=$((fails + 1))
+    fi
+done
+[ "$cards" -gt 0 ] || { echo "no R9700 found" >&2; exit 1; }
+[ "$fails" -eq 0 ]

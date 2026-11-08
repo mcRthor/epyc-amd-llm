@@ -1,0 +1,14 @@
+[Unit]
+Description=LocAI Quick model (Qwen3.5 9B on RX 9060 XT, port 9701)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=llm
+ExecStart=/home/llm/locai/llama/start-quick.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

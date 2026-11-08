@@ -1,0 +1,21 @@
+# Sets the R9700 power limit to the instance's watts: locai-gpu-powercap@250.service = 250 W.
+# Enable one instance for boot (sudo systemctl enable locai-gpu-powercap@250.service); start
+# another to change the limit until the next reboot (sudo systemctl start locai-gpu-powercap@280).
+# No RemainAfterExit, so starting an instance always applies it again, even one that already ran.
+[Unit]
+Description=Set the Radeon AI PRO R9700 power limit to %i W
+# set it before the model servers start using the cards
+Before=locai-router.service
+
+[Service]
+Type=oneshot
+Environment=WATTS=%i
+ExecStart=/usr/local/sbin/locai-gpu-powercap
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateNetwork=yes
+
+[Install]
+WantedBy=multi-user.target

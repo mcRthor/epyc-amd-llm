@@ -1,0 +1,14 @@
+[Unit]
+Description=LocAI reranker (Qwen3-Reranker-0.6B on RX 9060 XT, port 9703)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=llm
+ExecStart=/home/llm/locai/llama/start-rerank.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

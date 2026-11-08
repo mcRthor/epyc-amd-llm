@@ -1,0 +1,14 @@
+[Unit]
+Description=LocAI embedding model (Qwen3-Embedding-4B on RX 9060 XT, port 9702)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=llm
+ExecStart=/home/llm/locai/llama/start-embed.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

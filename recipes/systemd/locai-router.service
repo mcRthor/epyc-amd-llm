@@ -1,0 +1,21 @@
+[Unit]
+Description=locai llama-server router (local + LAN)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=llm
+Group=llm
+Environment=HOME=/home/llm
+# optional overrides (the leading "-" means the file may be missing)
+EnvironmentFile=-/home/llm/locai/llama/router.env
+ExecStart=/home/llm/locai/llama/start-router.sh
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+# stop the router and every model process it started
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
