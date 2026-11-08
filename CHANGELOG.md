@@ -12,8 +12,8 @@ First version.
 - `recipes/`: llama.cpp router presets, start scripts, systemd units, R9700 power-cap service.
 - `bench/code_test.py`: the coding benchmark.
 - `scripts/report.sh`: rig report for AMD GPU machines.
-- BIOS state as seen from Linux (UEFI, Resizable BAR, IOMMU, ASPM, SMT, NPS1, boost, C-states).
+- BIOS: factory defaults, nothing changed; the state in effect as seen from Linux (UEFI, Resizable BAR,
+  IOMMU, ASPM, SMT, NPS1, boost, C-states).
 - Benchmark checks validated against the reference solutions.
 
-Not yet: which BIOS options were changed from the defaults, Qwen3.5 9B speed on the 9060 XT, results
-from other machines.
+Not yet: Qwen3.5 9B speed on the 9060 XT, results from other machines.

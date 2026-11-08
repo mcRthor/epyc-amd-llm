@@ -81,8 +81,8 @@ Fill all 8 slots: every empty channel cuts bandwidth by an eighth.
 
 ## BIOS
 
-BIOS 3.0 (2026-09-16). The state below was read from Linux (`/sys`, the kernel log and `lspci -vvv`), not
-from the setup screens, so it shows what is in effect rather than which options were changed.
+BIOS 3.0 (2026-09-16), **factory defaults: no setting was changed.** Everything this build needs is already
+on by default. The state below was read from Linux (`/sys`, the kernel log and `lspci -vvv`).
 
 | Setting | State | How to check |
 |---|---|---|
@@ -97,5 +97,5 @@ from the setup screens, so it shows what is in effect rather than which options 
 | Global C-states | on (C1, C2) | `cat /sys/devices/system/cpu/cpu0/cpuidle/state*/name` |
 | Memory | 2400 MT/s, 8 channels | `sudo dmidecode -t memory` |
 
-**For GPUs on this board, make sure Above 4G decoding and Re-Size BAR support are enabled**: they let the
-system map each card's whole VRAM. [`scripts/report.sh`](../scripts/report.sh) prints most of this table.
+Above 4G decoding and Re-Size BAR support matter most for GPUs (they let the system map each card's whole
+VRAM); on this board and BIOS they are on out of the box. If your table differs, check those two first. [`scripts/report.sh`](../scripts/report.sh) prints most of this table.
