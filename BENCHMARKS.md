@@ -20,6 +20,8 @@ its reply and runs it against hidden checks in a sandbox (no network, 1 GB memor
 - **Hard set:** 7 tasks (`eval_expr`, `parse_csv_line`, `semver_compare`, `keys_maze`, `lfu_cache`,
   `diff_lines`, `fix_spiral`), **3 attempts each** = 21 answers, **309 checks**.
 - **Basic set:** 6 easier tasks, 1 attempt each, 67 checks.
+- The checks themselves are tested: `python3 bench/code_test.py --validate --set all` runs each task's
+  reference solution (all 13 pass every check) and an empty answer (passes none).
 - **Checks** = checks passed out of all checks. **Solved** = answers that passed every check.
   **Cut off** = answers that hit the token limit before finishing (they score what they got, usually 0).
   An answer with no code, or code that fails to run (syntax or import error), scores 0.

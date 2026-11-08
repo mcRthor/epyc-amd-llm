@@ -27,8 +27,9 @@ Both GPUs get a full **PCIe 4.0 x16** link straight to a CPU root port. There is
 | R9700 | `0000:03:00.0` | `00:01.1` | 16 GT/s x16 (PCIe 4.0) | **1** |
 | RX 9060 XT | `0000:43:00.0` | `40:03.1` | 16 GT/s x16 (PCIe 4.0) | **0** |
 
-- `lspci` and sysfs report **32 GT/s** (PCIe 5.0) on the GPU itself. That is only the link to the card's own
-  internal bridge; walk up the tree to the root port to see the real link:
+- `lspci` and sysfs report **32 GT/s** (PCIe 5.0) on the GPU itself. Each card has its own small PCIe switch
+  inside (an upstream and a downstream port); 32 GT/s is the link inside the card, and the card's upstream
+  port runs at 16 GT/s to the CPU. Walk up the tree to the root port to see the real link:
   ```bash
   p=$(readlink -f /sys/bus/pci/devices/0000:03:00.0)
   while [ -e "$p/current_link_speed" ]; do echo "$(basename $p) $(cat $p/current_link_speed) x$(cat $p/current_link_width)"; p=$(dirname $p); done
@@ -80,4 +81,21 @@ Fill all 8 slots: every empty channel cuts bandwidth by an eighth.
 
 ## BIOS
 
-BIOS 3.0 (2026-09-16). Settings changed from the defaults: *to be added.*
+BIOS 3.0 (2026-09-16). The state below was read from Linux (`/sys`, the kernel log and `lspci -vvv`), not
+from the setup screens, so it shows what is in effect rather than which options were changed.
+
+| Setting | State | How to check |
+|---|---|---|
+| Boot mode | UEFI; Secure Boot disabled | `ls /sys/firmware/efi`, `mokutil --sb-state` |
+| Above 4G decoding + Resizable BAR | on: BAR 0 spans all VRAM (32 GB on the R9700, 16 GB on the 9060 XT) | `sudo lspci -vvv -s 03:00.0 \| grep -A2 "Resizable BAR"` |
+| IOMMU | on (AMD-Vi); ACS enabled on the GPU root ports | `ls /sys/class/iommu` |
+| PCIe link speed | Gen4 (16 GT/s) x16 to both GPUs | see [PCIe layout](#pcie-layout) |
+| PCIe ASPM (link power saving) | disabled on the GPU links | `sudo lspci -vvv \| grep "LnkCtl:"` |
+| SMT | on, 48 threads | `cat /sys/devices/system/cpu/smt/control` |
+| NUMA nodes per socket | NPS1 (one node) | `ls -d /sys/devices/system/node/node*` |
+| Core performance boost | on | `cat /sys/devices/system/cpu/cpufreq/boost` |
+| Global C-states | on (C1, C2) | `cat /sys/devices/system/cpu/cpu0/cpuidle/state*/name` |
+| Memory | 2400 MT/s, 8 channels | `sudo dmidecode -t memory` |
+
+**For GPUs on this board, make sure Above 4G decoding and Re-Size BAR support are enabled**: they let the
+system map each card's whole VRAM. [`scripts/report.sh`](../scripts/report.sh) prints most of this table.
